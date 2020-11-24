@@ -5,7 +5,7 @@ import {registerUserService} from '../../services/userService';
 import {useStoreContext} from '../../store/index'
 
 const Registration: React.FC = () => {
-    const [username, setUsername] = useState("");
+    const [username, setUsername] = useState({});
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -28,8 +28,6 @@ const Registration: React.FC = () => {
        /*  registerUserService({
             username, email, password
         }, setContextState) */
-   
-
     };
 
     return (
@@ -92,11 +90,7 @@ const Registration: React.FC = () => {
             <input type="email" placeholder="Enter Password" className="form-input"/>
             <div className="form-background"></div>
           </div>
-          <div className="form-list">
-            <label className="form-label">Confirm Password</label>
-            <input type="email" placeholder="Re-Enter Password" className="form-input"/>
-            <div className="form-background"></div>
-          </div>
+        
         </div>
         <input type="submit" className="form-button" value="Register" />
       </form>

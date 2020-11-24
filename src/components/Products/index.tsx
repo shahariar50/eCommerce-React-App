@@ -1,7 +1,10 @@
 import React from 'react';
 import * as Styled from './styled';
+import data from './data';
+import { productManagementContext } from '../../store/productmgt.context';
 
 const Products: React.FC = () => {
+
     return (
         <Styled.ProductContainer>
             <div className="shop" style={{marginTop: "2%"}}>
@@ -9,7 +12,6 @@ const Products: React.FC = () => {
             <div className="container-fluid padding-100"> 
 
                 <div className="empty-space h30-xs h65-md"></div>
-
                 <form className="shop-form">
                     <div className="row">
                         <div className="col-sm-12 col-md-5 col-lg-5">
@@ -54,9 +56,11 @@ const Products: React.FC = () => {
                 <div className="row">
                     <div className="col-md-10 col-sm-9 pull-right">
                         <div className="prod-item-wrapper">
-                            <div className="shop-prod-item">
+                            {
+                            data.products.length && data.products.map(product => 
+                                <div className="shop-prod-item">
                                 <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/81fstJkUlaL._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
+                                    <img src={product.image} alt=""/>
                                     <span className="shop-prod-item-hover">
                                         <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
                                         <span className="btn-2"><span>add to cart</span></span>
@@ -65,157 +69,14 @@ const Products: React.FC = () => {
                                 </a>
                                 <div className="description">
                                     <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">chair with open space</h6></a>
+                            <a href="shopdetail.html"><h6 className="h6 hover-1">{product.name}</h6></a>
                                         <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
+                                        <p>{product.description}</p>
                                     </article>
                                 </div>
-                                <span className="price">&#36;286<sup>00</sup></span>
+                                <span className="price">&#36;{product.price}<sup>00</sup></span>
                             </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/81fstJkUlaL._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">chair with open space</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;567<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/81fstJkUlaL._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">wooden commode</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;690<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/71dqjxW8g5L._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">chair with open space</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;286<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/71dqjxW8g5L._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">comfortable kitchen chair</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;567<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/71dqjxW8g5L._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">great red sofa</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;690<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/71vvXGmdKWL._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">geometric chandelier</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;96<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/71vvXGmdKWL._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">stone journal table</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;337<sup>00</sup></span>
-                            </div>
-                            <div className="shop-prod-item">
-                                <a href="shopdetail.html" className="img-hover-1">
-                                    <img src="https://m.media-amazon.com/images/I/71vvXGmdKWL._AC_UY327_FMwebp_QL65_.jpg" alt=""/>
-                                    <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
-                                        <span className="btn-2"><span>add to cart</span></span>
-                                        <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                                <div className="description">
-                                    <article>
-                                        <a href="shopdetail.html"><h6 className="h6 hover-1">vase with geometric ornament</h6></a>
-                                        <div className="empty-space h5-xs"></div>
-                                        <p>Lorem ipsum dolor sit amet, cons adipisicing elit</p>
-                                    </article>
-                                </div>
-                                <span className="price">&#36;120<sup>00</sup></span>
-                            </div>
+                            )}
                         </div>
                         <div className="page-pagination">
                             <a href="#"><img src="img/shop/prev.png" alt=""/></a>
