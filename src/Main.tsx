@@ -9,6 +9,7 @@ import Cart from './components/Cart';
 import ContextProvider from './store/context.provider';
 import MyFooter from './components/common/Footer';
 import * as Styled from './main.styled';
+import ProductDetail from './components/Products/components/ProductDetail';
 
 const Main: React.FC = () => {
   return (
@@ -18,9 +19,11 @@ const Main: React.FC = () => {
         <Styled.MainContainer>
         <Switch>
           <Route exact path="/" component={Products} />
-          <Route path="/cart" component={Cart} />
-          <Route path="/register" component={Registration} />
-          <Route path="/login" component={Login} />
+          <Route exact path="/cart" component={Cart} />
+          <Route exact path="/register" component={Registration} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/productdetail" component={ProductDetail} />
+          <Route exact path="/productdetail/:id" component={ProductDetail} />
         </Switch>
         </Styled.MainContainer>
         <MyFooter/>

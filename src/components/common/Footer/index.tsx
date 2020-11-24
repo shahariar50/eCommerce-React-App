@@ -1,9 +1,9 @@
 import React from 'react';
 import * as Styled from './styled'
 
-function MyFooter(){
+const MyFooter: React.FC = () =>{
     return (
-     <Styled.FooterContainer>
+     <Styled.FooterContainer style={{backgroundColor: "#01032f", padding: "28px"}}>
             <div className="container small-sm">
                 <div className="row">
                     <div className="col-md-3">

@@ -1,9 +1,22 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import * as Styled from './styled';
 import data from './data';
+import {Link}from 'react-router-dom';
 import { productManagementContext } from '../../store/productmgt.context';
 
 const Products: React.FC = () => {
+const [inputsearch, setInputSearch] = useState("");
+/* 
+    useEffect(() => {
+       
+        return () => {
+            
+        }
+    }, []); */
+
+    const onInputChangeHandler = (e: any) =>{
+        e.preventDefault();
+    };
 
     return (
         <Styled.ProductContainer>
@@ -18,7 +31,12 @@ const Products: React.FC = () => {
                             <div className="search">
                                 <div className="input-wrapper search">
                                     <div className="input-style">
-                                        <input id="inputSearch" name="name" type="text" className="input" required/>
+                                        <input id="inputSearch"
+                                        name="name"
+                                        type="text"
+                                        className="input"
+                                        onChange={onInputChangeHandler}
+                                        required/>
                                         <label>Search</label>
                                         <div className="input-icon">
                                             <i className="fa fa-search" aria-hidden="true"></i>
@@ -27,26 +45,12 @@ const Products: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="found">
-                                    <p>found <span>127</span> items</p>
+                             <p>found <span>{data.products.length}</span> items</p>
                                 </div>
                             </div>
                         </div>
                         <div className="col-sm-12 col-md-7 col-lg-7">
-                            <div className="inline-wrapper">    
-                                <select name="sortby" className="select-box">
-                                    <option disabled selected>Sort by</option>
-                                    <option value="sort1">Sort1</option>
-                                    <option value="sort2">Sort2</option>
-                                    <option value="sort3">Sort3</option>
-                                    <option value="sort4">Sort4</option>
-                                </select>
-                                <span className="input-txt-left">Show</span>
-                                <select name="show" className="select-box">
-                                    <option value="10">10</option>
-                                    <option value="30">30</option>
-                                    <option value="50">50</option>
-                                </select>
-                            </div>
+                         
                         </div>
                     </div>
                 </form>
@@ -56,13 +60,15 @@ const Products: React.FC = () => {
                 <div className="row">
                     <div className="col-md-10 col-sm-9 pull-right">
                         <div className="prod-item-wrapper">
-                            {
-                            data.products.length && data.products.map(product => 
-                                <div className="shop-prod-item">
+                            { data.products.length ?
+                            (data.products.map((product) => 
+                                <div className="shop-prod-item" key={product.id}>
                                 <a href="shopdetail.html" className="img-hover-1">
                                     <img src={product.image} alt=""/>
                                     <span className="shop-prod-item-hover">
-                                        <span className="btn-2 open-popup" data-rel="4"><span>Quick view</span></span>
+                                        <span className="btn-2 open-popup" data-rel="4">
+                                           <Link to={`/productdetail/${product.id}`}> <span>Quick view</span> </Link>
+                                            </span>
                                         <span className="btn-2"><span>add to cart</span></span>
                                         <i className="fa fa-heart-o fa-lg" aria-hidden="true"></i>
                                     </span>
@@ -76,7 +82,7 @@ const Products: React.FC = () => {
                                 </div>
                                 <span className="price">&#36;{product.price}<sup>00</sup></span>
                             </div>
-                            )}
+                            )):  (<div> No Products Found</div>)}
                         </div>
                         <div className="page-pagination">
                             <a href="#"><img src="img/shop/prev.png" alt=""/></a>
@@ -113,19 +119,16 @@ const Products: React.FC = () => {
                                 <input type="checkbox" /><span>All</span>
                             </label>
                             <label className="checkbox-entry">
-                                <input type="checkbox" /><span>Curabitur fermentum</span>
+                                <input type="checkbox" /><span>Car Accesories</span>
                             </label>
                             <label className="checkbox-entry">
-                                <input type="checkbox" /><span>Kitchen furniture</span>
+                                <input type="checkbox" /><span>Laptops</span>
                             </label>
                             <label className="checkbox-entry">
-                                <input type="checkbox" /><span>Room for guest</span>
+                                <input type="checkbox" /><span>Mobiles</span>
                             </label>
                             <label className="checkbox-entry">
-                                <input type="checkbox" /><span>Main room</span>
-                            </label>
-                            <label className="checkbox-entry">
-                                <input type="checkbox" /><span>Bedrooms</span>
+                                <input type="checkbox" /><span>Kitchen Appliances</span>
                             </label>
 
                             <div className="empty-space h30-xs h45-md"></div>
