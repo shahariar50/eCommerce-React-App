@@ -1,0 +1,18 @@
+/* These types will work as actiontypes similar to redux.
+   Thus declaring constant values
+*/
+export const StateChangeTypes = {
+    REGISTER: 'REGISTER',
+    USER_REGISTERED: 'USER_REGISTERED',
+    LOGGED_IN: 'LOGGED_IN',
+    SET_PAGE: 'SET_PAGE',
+    SET_USER: 'SET_USER',
+    SET_PROFILE: 'SET_PROFILE',
+    UPDATE_PROFILE: 'UPDATE_PROFILE',
+    SET_PRODUCT: 'SET_PRODUCT',
+    UPDATE_PRODUCT: 'UPDATE_PRODUCT',
+    DELETE_PRODUCT: 'DELETE_PRODUCT',
+    CLEAR_FILTERS: 'CLEAR_FILTERS',
+    SET_ERROR_MESSAGE: "SET_ERROR_MESSAGE",
+    FETCHING: 'FETCHING'
+}

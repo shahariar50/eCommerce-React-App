@@ -1,0 +1,226 @@
+#!/usr/bin/env groovy
+@Library('StandardLibrary@master') _
+
+def TARGET_VERSION
+def SERVICE_NAME = "product-mangement-project"
+def SERVICE_PORT = "33333"
+
+node('linux7 && uk') {
+  def nodeHome = installTool "node-v12.13.1-linux-x64"
+  TARGET_VERSION = sh(script: "date +%s", returnStdout: true).trim()
+
+  withEnv([
+    "CI=false",
+    "NODE_HOME=${nodeHome}",
+    "PATH+NODE=${nodeHome}/bin",
+    "TARGET_VERSION=${TARGET_VERSION}",
+    "SERVICE_NAME=${SERVICE_NAME}",
+    "SERVICE_PORT=${SERVICE_PORT}"
+  ]) {
+    configFileProvider([configFile(fileId: 'artifactory-npmrc', targetLocation: '.npmrc')]) {
+      try {
+        stagePreparation()
+      } catch (err) {
+        notifyError("Build failed at Preparation Stage", err)
+      }
+
+      try {
+        stageTest()
+      } catch (err) {
+        notifyError("Build failed at Test Stage", err)
+      }
+
+      try {
+        stageBuild()
+      } catch (err) {
+        notifyError("Build failed at Build Stage", err)
+      }
+
+      try {
+        stagePublish()
+      } catch (err) {
+        notifyError("Build failed at Publish Stage", err)
+      }
+
+      try {
+        stageBuildDockerImage()
+      } catch (err) {
+        notifyError("Build failed at Build Docker Image Stage", err)
+      }
+
+      try {
+        stageDeployToKube()
+      } catch (err) {
+        notifyError("Build failed at Deploy To Kube Stage", err)
+      }
+
+      notifyDeploy()
+    }
+  }
+}
+
+def stagePreparation() {
+  stage('Preparation') {
+    deleteDir()
+    notifyStash()
+    checkout scm
+
+    env.HTTP_PROXY = "http://10.192.116.73:8080"
+
+    sh "node -v"
+    sh "npm install --production"
+
+    stash name: SERVICE_NAME
+  }
+}
+
+def stageTest() {
+  stage('Test') {
+    sh "npm run test:coverage"
+  }
+}
+
+def stageBuild() {
+  stage('Build') {
+    sh "npm run build"
+  }
+}
+
+def stagePublish() {
+  stage('Publish') {
+    def branch = "${branchName}"
+    def serviceName = "${SERVICE_NAME}"
+    def txWebFrontEnd = "tx-web-frontend-${TARGET_VERSION}.tar.gz"
+
+    sh "mkdir ${SERVICE_NAME}"
+    sh "cp -rf build/* ${SERVICE_NAME}"
+    sh "cp package.json ${SERVICE_NAME}"
+    sh "cp package-lock.json ${SERVICE_NAME}"
+    sh "tar -czf ${txWebFrontEnd} ${SERVICE_NAME}/"
+
+    echo "Uploading `tx-web-frontend-${TARGET_VERSION}.tar.gz` to Artifactory..."
+
+    uploadToArtifactory {
+      pattern = "${txWebFrontEnd}"
+      target = "generic-temp/tradeport/web/${branch}/${serviceName}/${txWebFrontEnd}"
+    }
+
+    echo "Prune and clean up..."
+
+    sh "npm prune"
+    sh "rm -rf node_modules ${SERVICE_NAME}"
+    sh "rm -f *.tar.gz"
+    sh "rm -f package-lock.json"
+
+    stash name: SERVICE_NAME
+  }
+}
+
+def stageBuildDockerImage() {
+  stage('Build Docker Image') {
+    node('docker') {
+      deleteDir()
+      unstash SERVICE_NAME
+
+      echo "target version is ${TARGET_VERSION}"
+
+      artifactoryDockerRegistry {
+        def imgBuild = docker.build(
+          "tradeport/${SERVICE_NAME}:${TARGET_VERSION}",
+          " --no-cache=true" +
+          " --build-arg branch_name=${branchName}" +
+          " --build-arg service_name=${SERVICE_NAME}" +
+          " --build-arg target_version=${TARGET_VERSION}" +
+          " ."
+        )
+        imgBuild.push()
+      }
+
+      sh "rm -f package-lock.json"
+    }
+  }
+}
+
+def stageDeployToKube() {
+  def serviceName = "${SERVICE_NAME}"
+  def servicePort = "${SERVICE_PORT}"
+  def targetVersion = "${TARGET_VERSION}"
+
+  def tpPortStatus = 50000
+  def tpPortMetrics = 7777
+  def traefikPath = "/,/static,/media,/css,/js,/favicon.ico"
+  def tpEnvironment = "dev1"
+  def tpKubeNamespace = "amreen-poc-region"
+  def tpTargetNodes = "master-01"
+  def tpReplicas = "1"
+  def tpApiVersion = "v1"
+  def tpConnectionType = "local"
+  def tpSubDomain= "tp"
+  def tpDomainName = "amreensultan.com"
+  def tpHeapMax = "512M"
+  def tpHeapMin = "512M"
+  def tpKubeUrl = "https://putkubernetesUrl"
+  def tpKubeToken
+  def tpMemoryLimit = "768M"
+  def tpMemoryReserved = "256M"
+  def tpReleaseType = "stable"
+  def tpArtifactPath = "generic-release/artifcats.zip"
+  def tpTargetEnv = "grimlock"
+  def tpCredentialsID = "appadm"
+  def tpPlaybookPath = "tp-gaea-services/main.yml"
+  def tpPlaybookInventory = "tp-gaea-services/environment/gaea"
+  def tpAnsibleVersion = "Ansible 2.4"
+
+  deployServicesKube {
+    tp_kubernetes_api_url = tpKubeUrl
+    tp_kubernetes_namespace = tpKubeNamespace
+    tp_port_pod = servicePort
+    tp_port_service = servicePort
+    tp_project_name = "tp"
+    tp_release_type = tpReleaseType
+    tp_replicas = tpReplicas
+    tp_service_name = serviceName
+    tp_service_version = targetVersion
+    tp_target_stack = serviceName
+    traefik_path = traefikPath
+    tp_port_status = tpPortStatus
+    tp_port_metrics = tpPortMetrics
+    tp_subdomain = tpSubDomain
+  }
+
+}
+
+def notifyError(message, err) {
+  def teamEmails = "amreensultan999@gmail.com"
+  def lastCommitBy = sh(returnStdout: true, script: 'git log -1 --pretty=format:"%ce"').trim()
+  def lastCommit = sh(returnStdout: true, script: 'git log --pretty=format:"%h %ad %an: %s" --date=short -1').trim()
+  def consoleUrl = "${env.BUILD_URL}console"
+  def mailTo = (branchName == 'master' || branchName == 'develop') ? "${lastCommitBy},${teamEmails}" : "${lastCommitBy}"
+  def mailSubj = "Build ${branchName} #${env.BUILD_ID} is broken: ${message}"
+  def mailBody = "See ${consoleUrl}\n\nLast commit:\n${lastCommit}\n\nJob: ${env.JOB_NAME}\nNode: ${env.NODE_NAME}\n\n${message}\n\n${err}"
+  mail(
+    to: "${mailTo}",
+    subject: "${mailSubj}",
+    body: "${mailBody}"
+  )
+
+  currentBuild.result = 'FAILURE'
+  throw err
+}
+
+def notifyDeploy() {
+  def teamEmails = "amreensultan999@gmail.com"
+  def consoleUrl = "${env.BUILD_URL}console"
+  def mailTo = "${teamEmails}"
+  def mailSubj = "Master deployment successful"
+  def tags = sh(returnStdout: true, script: 'git log --tags -1').trim()
+  def mailBody = "See ${consoleUrl}\n\nJob: ${env.JOB_NAME}\nNode: ${env.NODE_NAME}\n\n${tags}"
+
+  mail(
+    to: "${mailTo}",
+    subject: "${mailSubj}",
+    body: "${mailBody}"
+  )
+
+  currentBuild.result = 'SUCCESS'
+}
