@@ -2530,7 +2530,7 @@ header.scrolled {
 }
 
 header.header-style-2 {
-  background-color: #fafafa;
+  background: -webkit-linear-gradient(-45deg, #7a1b50 0%, #5d3178 100%);
   border-bottom: 1px solid #efefef;
   margin-bottom: 16px;
 }
@@ -2569,7 +2569,7 @@ header ul.header-menu > li > a {
   line-height: 31px;
   width: auto;
   padding: 0 20px;
-  color: #222;
+  color: #fff;
 }
 header ul.header-menu > li.active > a {
   color: #fff;
@@ -2577,6 +2577,9 @@ header ul.header-menu > li.active > a {
 header ul.header-menu > li > a span {
   z-index: 1;
   position: relative;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
 }
 header ul.header-menu > li.active > a:before {
   height: 100%;
@@ -2626,8 +2629,10 @@ header ul.header-menu > li > ul > li a {
   margin: 5px 0;
 }
 header a {
-  color: #222;
+  color: #fff;
   position: relative;
+  font-size: 16px;
+  font-weight: 600;
 }
 header ul.header-menu > li:hover > ul {
   visibility: visible;
@@ -2653,7 +2658,7 @@ header ul.header-menu > li:hover > ul {
 }
 .hamburger-icon-2 span,
 .hamburger-icon span {
-  background-color: #222;
+  background-color: #90ede3;
   height: 2px;
   width: 18px;
   position: absolute;
@@ -2752,9 +2757,11 @@ header ul.header-menu > li:hover > ul {
 .basket p {
   display: inline-block;
   width: auto;
+  color: #ddcd0a;
+  font-weight: 600;
 }
 .basket p span {
-  color: #17a2b8;
+  color: #55e326;
 }
 .basket.open-popup.active .img-wrapper {
   background-position: top right;
@@ -2917,7 +2924,7 @@ footer h6.h7 {
   margin: 0 5px;
   position: relative;
   border: 1px #cbcbcb solid;
-  background: #fff;
+  background: #1f1e26;
   font-size: 12px;
   vertical-align: bottom;
 }

@@ -25,6 +25,9 @@ const [inputsearch, setInputSearch] = useState("");
             <div className="container-fluid padding-100"> 
 
                 <div className="empty-space h30-xs h65-md"></div>
+                    <img src="https://i2.wp.com/tutorialsocean.com/wp-content/uploads/2019/07/banner.jpg?w=1800&ssl=1" alt="banner" width="100%" style={{marginTop: "20px"}}/>
+                <div className="empty-space h30-xs h65-md"></div>
+
                 <form className="shop-form">
                     <div className="row">
                         <div className="col-sm-12 col-md-5 col-lg-5">

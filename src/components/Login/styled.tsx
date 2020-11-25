@@ -57,10 +57,10 @@ body, html {
   padding: 60px 30px;
   box-sizing: border-box;
   background: #3360ae;
-  background: -moz-linear-gradient(-45deg, #3360ae 0%, #17a2b8 100%);
-  background: -webkit-linear-gradient(-45deg, #3360ae 0%,#17a2b8 100%);
-  background: linear-gradient(135deg, #3360ae 0%,#17a2b8 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3360ae', endColorstr='#17a2b8',GradientType=1 );
+  background: -moz-linear-gradient(-45deg, #a53908 0%, #f8bb11 100%);
+  background: -webkit-linear-gradient(-45deg, #a53908 0%,#f8bb11 100%);
+  background: linear-gradient(135deg,#a53908 0%,#f8bb11 100%)
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a53908', endColorstr='#f8bb11',GradientType=1 );
   
   
   .form-list {

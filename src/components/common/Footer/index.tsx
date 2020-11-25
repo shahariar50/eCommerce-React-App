@@ -3,7 +3,7 @@ import * as Styled from './styled'
 
 const MyFooter: React.FC = () =>{
     return (
-     <Styled.FooterContainer style={{backgroundColor: "#01032f", padding: "28px"}}>
+     <Styled.FooterContainer style={{backgroundColor: "rgb(1 1 15)", padding: "28px"}}>
             <div className="container small-sm">
                 <div className="row">
                     <div className="col-md-3">
@@ -17,7 +17,7 @@ const MyFooter: React.FC = () =>{
                         <div className="empty-space h10-xs"></div>
                         <ul>
                             <li>
-                                <a href="https://www.google.com.ua/maps/@40.7573849,-73.9721243,19z">319 Clematis St.Suite, 100 WPB, FL 33401</a>
+                                <a href="https://www.google.com.ua/maps/@40.7573849,-73.9721243,19z">999, My Street, FL 33401</a>
                             </li>
                         </ul>
                     </div>

@@ -29,6 +29,10 @@ const HeaderComp: React.FC = () => {
                 <div className="col-xs-10 text-right">
 
                     <ul className="header-menu">
+                        <li>
+                            <input type="text" placeholder="Search products..."
+                            style={{borderRadius: "5px", height: "40px", width: "300px"}}/>
+                        </li>
                    <li> <Link to="/" className="logo"><span>Home</span></Link></li>
                         <li>
                         <Link to="/"> <span>Categories</span></Link>
